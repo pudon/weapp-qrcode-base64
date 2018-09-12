@@ -1,0 +1,19 @@
+<!-- index.wxml -->
+<view class="container">
+	<view class="qrcode-wrap">
+		<view class="qrcode-container">
+			<image class="qrcode-img" src="{{qrcodeURL}}"></image>
+		</view>
+		<view class="text-container">
+			<input 
+				placeholder="请输入字符串" 
+				value="{{codeText}}" 
+				bindinput="setText" 
+				class="text-input"
+				confirm-type="done"
+				bindconfirm="drawImg"
+			/>
+			<button type="primary" class="change-btn" bindtap="drawImg">转换</button>
+		</view>
+	</view>
+</view>

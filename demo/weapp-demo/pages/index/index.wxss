@@ -1,0 +1,38 @@
+/**index.wxss**/
+page {
+  height: 100%;
+}
+.container {
+  background: #f5f5f5;
+}
+.qrcode-wrap {
+  background: #fff;
+  border-radius: 33rpx;
+}
+.qrcode-container {
+  padding-top: 80rpx;
+  padding-bottom: 50rpx;
+  text-align: center;
+}
+.qrcode-img {
+  width: 500rpx;
+  height: 500rpx;
+}
+.text-container {
+  padding: 50rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 2rpx solid #f0f0f0;
+}
+.text-input {
+  border: 2rpx solid #f5f5f5;
+  border-radius: 10rpx;
+  margin-right: 10rpx;
+  padding: 20rpx;
+}
+.change-btn {
+  width: 200rpx;
+  color: #fff;
+  padding: 0 50rpx;
+}

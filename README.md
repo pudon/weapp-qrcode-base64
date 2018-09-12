@@ -1,5 +1,5 @@
 # weapp-qrcode
-微信小程序生成二维码的插件,基于img,base64输出二维码，不依赖canvas
+微信小程序生成二维码的插件,基于base64编码输出二维码，不依赖canvas
 >PS: 主要在`node-yaqrcode`项目基础上进行改造适应微信小程序
 
 ## 说明

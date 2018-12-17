@@ -1606,7 +1606,7 @@ var drawImg = function(text, options) {
         if(typeNumber >= 40) {
             throw new Error('Text too long to encode');
         } else {
-            return gen(text, {
+            return drawImg(text, {
                 size: size,
                 errorCorrectLevel: errorCorrectLevel,
                 typeNumber: typeNumber + 1

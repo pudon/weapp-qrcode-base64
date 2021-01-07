@@ -18,11 +18,13 @@ Page({
     })
   },
   drawImg: function () {
-    console.log(this.data.codeText);
-    var imgData = QR.drawImg(this.data.codeText, {
-      typeNumber: 4,
+    var imgData = QR.drawImg(content, {
+      version: 1,
       errorCorrectLevel: 'M',
-      size: 500
+      color: '#3d0d83',
+      background: '#fff',
+      padding: 10,
+      size: 200
     })
     this.setData({
       qrcodeURL: imgData

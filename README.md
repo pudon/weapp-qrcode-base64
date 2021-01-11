@@ -19,7 +19,7 @@ JS调用例子：
     import QR from 'qrcode-base64'
 
     var imgData = QR.drawImg(this.data.codeText, {
-      typeNumber: 4,
+      version: 1,
       errorCorrectLevel: 'M',
       size: 500
     })
@@ -30,10 +30,16 @@ JS调用例子：
 JS调用例子：
 ```
     const QR = require('../../utils/weapp-qrcode.js')
-    var imgData = QR.drawImg(this.data.codeText, {
-      typeNumber: 4,
+     var imgData = QR.drawImg(content, {
+      version: 1,
       errorCorrectLevel: 'M',
-      size: 500
+      color: '#3d0d83', // 支持#000,#000000 或者 rgb(0,0,0)
+      background: '#fff', // 支持#000,#000000 或者 rgb(0,0,0)
+      padding: 10, // 设置padding 为二维码方格的个数
+      size: 200
+    })
+    this.setData({
+      srcBase64: imgData
     })
     // 返回输出base64编码imgData
 

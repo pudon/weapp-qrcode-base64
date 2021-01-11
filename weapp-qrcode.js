@@ -25,6 +25,10 @@
  */
 //---------------------------------------------------------------------
 
+var globalConfig = {
+	colors: [],
+	backgrounds: []
+}
 /**
  * qrcode
  * @param typeNumber 1 to 40
@@ -1384,14 +1388,18 @@ var gifImage = function(width, height) {
 	// Global Color Map
 
 	// black
-	out.writeByte(0x00);
-	out.writeByte(0x00);
-	out.writeByte(0x00);
+	for(var i = 0; i < 3; i++) {
+		out.writeByte(globalConfig.colors[i] || 0x00);
+	}
 
 	// white
-	out.writeByte(0xff);
-	out.writeByte(0xff);
-	out.writeByte(0xff);
+	for(var i = 0; i < 3; i++) {
+		var color = globalConfig.backgrounds[i] === 0 ? 0 : (globalConfig.backgrounds[i] || 0xff)
+		out.writeByte(color);
+	}
+	// out.writeByte(0xff);
+	// out.writeByte(0xff);
+	// out.writeByte(0xff);
 
 	//---------------------------------
 	// Image Descriptor
@@ -1587,15 +1595,38 @@ var createImgTag = function(width, height, getPixel, alt) {
     return img;
 };
 
+var color2hexs = function(colorString) {
+	var color = [], rgb = [], hex;
+  if (colorString.startsWith('#')) {
+    hex = colorString.replace(/#/,"");
+    if (hex.length == 3) { // 处理 "#abc" 成 "#aabbcc"
+        var tmp = [];
+        for (var i = 0; i < 3; i++) {
+          tmp.push(hex.charAt(i) + hex.charAt(i));
+        }
+        hex = tmp.join("");
+    }
+	
+    for (var i = 0; i < 3; i++) {
+      color[i] = "0x" + hex.substr(i * 2, 2);
+      rgb.push(parseInt(Number(color[i])));
+    }
+  } else if (colorString.startsWith('rgb')) {
+    rgb = colorString.toString().match(/\d+/g);
+  }
+  return rgb;
+}
 //---------------------------------------------------------------------
 // returns qrcode function.
 
 var drawImg = function(text, options) {
     options = options || {};
-    var typeNumber = options.typeNumber || 4;
+    var typeNumber = options.version || 4;
     var errorCorrectLevel = options.errorCorrectLevel || 'M';
     var size = options.size || 500;
-
+		globalConfig.colors = color2hexs(options.color || '#000')
+    globalConfig.backgrounds = color2hexs(options.background || '#fff')
+    var padding = options.padding || 0
     var qr;
 
     try {
@@ -1609,16 +1640,17 @@ var drawImg = function(text, options) {
             return drawImg(text, {
                 size: size,
                 errorCorrectLevel: errorCorrectLevel,
-                typeNumber: typeNumber + 1
+                version: typeNumber + 1,
+                color: options.color,
+								background: options.background,
+								padding: options.padding
             });
         }
     }
 
     // calc cellsize and margin
-    var cellsize = parseInt(size / qr.getModuleCount());
-    var margin = parseInt((size - qr.getModuleCount() * cellsize) / 2);
-
-    return qr.createImgTag(cellsize, margin, size);
+    var cellsize = ((size) / (qr.getModuleCount() + 2 * padding));
+    return qr.createImgTag(cellsize, padding * cellsize, size);
 };
 module.exports = {
 	drawImg: drawImg
